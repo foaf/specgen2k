@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { generateSpec } from './spec-generator.js';
+import { generateSpec, applyPy2Ordering } from './spec-generator.js';
 import { readFile, writeFile } from 'fs/promises';
 
 const args = process.argv.slice(2);
@@ -12,6 +12,7 @@ if (args.length < 2) {
   console.error('  --doc-dir <dir>                    Directory with .en doc fragments');
   console.error('  --output <file>                    Output file (default: stdout)');
   console.error('  --replicate-ancient-bugs <json>    Apply ordering/bug overrides from config');
+  console.error('  --fake-py-dicts                    Simulate CPython 2 dict ordering');
   console.error('  --extra-rdf <name>=<path>          Additional RDF file (repeatable)');
   console.error('');
   console.error('Examples:');
@@ -26,12 +27,14 @@ const templatePath = args[1];
 let docDir = null;
 let outputPath = null;
 let ancientBugsPath = null;
+let fakePyDicts = false;
 const extraRdf = []; // { name, path }
 
 for (let i = 2; i < args.length; i++) {
   if (args[i] === '--doc-dir' && args[i + 1]) docDir = args[++i];
   if (args[i] === '--output' && args[i + 1]) outputPath = args[++i];
   if (args[i] === '--replicate-ancient-bugs' && args[i + 1]) ancientBugsPath = args[++i];
+  if (args[i] === '--fake-py-dicts') { fakePyDicts = true; continue; }
   if (args[i] === '--extra-rdf' && args[i + 1]) {
     const arg = args[++i];
     const eq = arg.indexOf('=');
@@ -47,7 +50,7 @@ if (ancientBugsPath) {
 }
 
 try {
-  const html = await generateSpec({ rdfPath, templatePath, docDir, ancientBugs, extraRdf });
+  const html = await generateSpec({ rdfPath, templatePath, docDir, ancientBugs, extraRdf, fakePyDicts });
   if (outputPath) {
     await writeFile(outputPath, html);
     console.error(`Written to ${outputPath}`);
