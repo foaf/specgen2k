@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>DCMI Metadata Terms</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=atkinson-hyperlegible:400,400i,700,700i" rel="stylesheet">
+  <style>body { font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; }</style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+
+  <header class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">DCMI Metadata Terms</h1>
+    <p class="mt-2 text-sm text-gray-600">
+      This document is an up-to-date specification of all metadata terms maintained by the
+      Dublin Core Metadata Initiative, including properties, vocabulary encoding schemes,
+      syntax encoding schemes, and classes.
+    </p>
+  </header>
+
+  <nav class="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Index of Terms</h2>
+
+    <div class="mb-4">
+      <h3 class="text-sm font-medium text-gray-700 mb-2">Properties</h3>
+      <div class="flex flex-wrap gap-1">
+        {% for term in properties %}
+        <a href="#{{ term.localName }}" class="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 hover:bg-blue-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-medium text-gray-700 mb-2">Classes</h3>
+      <div class="flex flex-wrap gap-1">
+        {% for term in classes %}
+        <a href="#{{ term.localName }}" class="inline-flex items-center rounded-full bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-600/20 hover:bg-purple-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </nav>
+
+  <section class="mt-12" aria-labelledby="properties-heading">
+    <h2 id="properties-heading" class="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3 mb-6">
+      Properties in the <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">/terms/</code> namespace
+    </h2>
+
+    {% for term in properties %}
+    <article id="{{ term.localName }}" class="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm scroll-mt-20">
+      <div class="flex flex-col gap-2 bg-gray-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <h3 class="text-base font-semibold text-gray-900">{{ term.localName }}</h3>
+          <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset bg-blue-50 text-blue-700 ring-blue-600/20">Property</span>
+        </div>
+      </div>
+
+      <dl class="divide-y divide-gray-100">
+        <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">URI</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+            <code class="font-mono text-xs break-all bg-gray-100 px-1.5 py-0.5 rounded">{{ term.uri }}</code>
+          </dd>
+        </div>
+        <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Label</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.label }}</dd>
+        </div>
+        <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Definition</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.comment }}</dd>
+        </div>
+        {% if term.description %}
+        <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Comment</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.description }}</dd>
+        </div>
+        {% endif %}
+        {% if term.issued %}
+        <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Date Issued</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.issued }}</dd>
+        </div>
+        {% endif %}
+        {% if term.subPropertyOf | length %}
+        <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Subproperty of</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+            <ul class="list-disc pl-5 space-y-1">
+              {% for sp in term.subPropertyOf %}<li><a href="#{{ sp }}" class="text-indigo-600 hover:text-indigo-500">{{ sp }}</a></li>{% endfor %}
+            </ul>
+          </dd>
+        </div>
+        {% endif %}
+        {% if term.rangeIncludes | length %}
+        <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Has Range</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+            <ul class="list-disc pl-5 space-y-1">
+              {% for r in term.rangeIncludes %}<li>{{ r }}</li>{% endfor %}
+            </ul>
+          </dd>
+        </div>
+        {% endif %}
+        {% if term.domainIncludes | length %}
+        <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Has Domain</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+            <ul class="list-disc pl-5 space-y-1">
+              {% for d in term.domainIncludes %}<li>{{ d }}</li>{% endfor %}
+            </ul>
+          </dd>
+        </div>
+        {% endif %}
+      </dl>
+    </article>
+    {% endfor %}
+  </section>
+
+  <section class="mt-12" aria-labelledby="classes-heading">
+    <h2 id="classes-heading" class="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3 mb-6">
+      Classes
+    </h2>
+
+    {% for term in classes %}
+    <article id="{{ term.localName }}" class="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm scroll-mt-20">
+      <div class="flex flex-col gap-2 bg-gray-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <h3 class="text-base font-semibold text-gray-900">{{ term.localName }}</h3>
+          <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset bg-purple-50 text-purple-700 ring-purple-600/20">Class</span>
+        </div>
+      </div>
+
+      <dl class="divide-y divide-gray-100">
+        <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">URI</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+            <code class="font-mono text-xs break-all bg-gray-100 px-1.5 py-0.5 rounded">{{ term.uri }}</code>
+          </dd>
+        </div>
+        <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Label</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.label }}</dd>
+        </div>
+        <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Definition</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.comment }}</dd>
+        </div>
+        {% if term.description %}
+        <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Comment</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.description }}</dd>
+        </div>
+        {% endif %}
+        {% if term.issued %}
+        <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Date Issued</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.issued }}</dd>
+        </div>
+        {% endif %}
+        {% if term.subClassOf | length %}
+        <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-900">Subclass of</dt>
+          <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+            <ul class="list-disc pl-5 space-y-1">
+              {% for sc in term.subClassOf %}<li><a href="#{{ sc }}" class="text-indigo-600 hover:text-indigo-500">{{ sc }}</a></li>{% endfor %}
+            </ul>
+          </dd>
+        </div>
+        {% endif %}
+      </dl>
+    </article>
+    {% endfor %}
+  </section>
+
+</div>
+
+</body>
+</html>

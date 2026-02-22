@@ -1,0 +1,24 @@
+{
+  "name": "specgen2k",
+  "version": "0.1.0",
+  "description": "Generate HTML vocabulary specifications from RDF schema inputs",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "specgen2k": "src/cli.js"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "n3": "^1.17.0",
+    "nunjucks": "^3.2.4",
+    "rdf-data-factory": "^1.1.0",
+    "rdfxml-streaming-parser": "^2.4.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0"
+  },
+  "license": "MIT"
+}

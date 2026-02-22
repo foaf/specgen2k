@@ -1,0 +1,44 @@
+{
+  "_comment": "Replicates ordering bugs from the 2014 Python specgen (rdflib hash-based iteration order) and missing isDefinedBy rows. Use with --replicate-ancient-bugs flag.",
+  "ordering": {
+    "Agent": {
+      "inDomainOf": ["gender", "yahooChatID", "account", "birthday", "icqChatID", "aimChatID", "jabberID", "made", "mbox", "interest", "tipjar", "skypeID", "topic_interest", "age", "mbox_sha1sum", "status", "msnChatID", "openid", "holdsAccount", "weblog"],
+      "inRangeOf": ["maker", "member"],
+      "hasSubClass": ["Group", "Person", "Organization"]
+    },
+    "Document": {
+      "inDomainOf": ["topic", "primaryTopic", "sha1"],
+      "inRangeOf": ["workInfoHomepage", "workplaceHomepage", "page", "accountServiceHomepage", "openid", "tipjar", "schoolHomepage", "publications", "isPrimaryTopicOf", "interest", "homepage", "weblog"],
+      "hasSubClass": ["Image", "PersonalProfileDocument"],
+      "disjointWith": ["Project", "Organization"]
+    },
+    "Group": {
+      "inDomainOf": ["member"]
+    },
+    "Image": {
+      "inDomainOf": ["depicts", "thumbnail"],
+      "inRangeOf": ["img", "thumbnail", "depiction"]
+    },
+    "Organization": {
+      "disjointWith": ["Document", "Person"]
+    },
+    "Person": {
+      "inDomainOf": ["plan", "surname", "geekcode", "pastProject", "lastName", "family_name", "publications", "currentProject", "familyName", "firstName", "workInfoHomepage", "myersBriggs", "schoolHomepage", "img", "workplaceHomepage", "knows"],
+      "inRangeOf": ["knows"],
+      "disjointWith": ["Project", "Organization"]
+    },
+    "OnlineAccount": {
+      "inDomainOf": ["accountName", "accountServiceHomepage"],
+      "inRangeOf": ["account", "holdsAccount"],
+      "hasSubClass": ["OnlineEcommerceAccount", "OnlineGamingAccount", "OnlineChatAccount"]
+    },
+    "Project": {
+      "disjointWith": ["Document", "Person"]
+    }
+  },
+  "skipIsDefinedBy": ["Agent", "Group", "PersonalProfileDocument"],
+  "brokenLinks": {
+    "_comment": "The old specgen linkified foaf:skype even though the term is skypeID, producing a broken #term_skype anchor",
+    "linkifyUnknownTerms": true
+  }
+}

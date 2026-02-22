@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>DCMI Metadata Terms</title>
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=atkinson-hyperlegible:400,400i,700,700i" rel="stylesheet" />
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">DCMI Metadata Terms</h1>
+    <p class="mt-4 text-lg text-gray-600">
+      This document is an up-to-date specification of all metadata terms maintained by the
+      Dublin Core Metadata Initiative, including properties, vocabulary encoding schemes,
+      syntax encoding schemes, and classes.
+    </p>
+  </header>
+
+  {# ── Table of Contents ── #}
+  <nav class="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold text-gray-900 mb-3">Table of Contents</h2>
+    <ol class="list-decimal list-inside space-y-1 text-sm text-indigo-600">
+      <li><a href="#section-1" class="hover:text-indigo-500 hover:underline">Introduction and Definitions</a></li>
+      <li><a href="#section-2" class="hover:text-indigo-500 hover:underline">Properties in the /terms/ namespace</a></li>
+      {% if extraVocabs.elements %}<li><a href="#section-3" class="hover:text-indigo-500 hover:underline">Properties in the /elements/1.1/ namespace</a></li>{% endif %}
+      <li><a href="#section-4" class="hover:text-indigo-500 hover:underline">Vocabulary Encoding Schemes</a></li>
+      <li><a href="#section-5" class="hover:text-indigo-500 hover:underline">Syntax Encoding Schemes</a></li>
+      <li><a href="#section-6" class="hover:text-indigo-500 hover:underline">Classes</a></li>
+      {% if extraVocabs.dcmitype %}<li><a href="#section-7" class="hover:text-indigo-500 hover:underline">DCMI Type Vocabulary</a></li>{% endif %}
+      {% if extraVocabs.dcam %}<li><a href="#section-8" class="hover:text-indigo-500 hover:underline">Terms for vocabulary description</a></li>{% endif %}
+      <li><a href="#section-9" class="hover:text-indigo-500 hover:underline">Bibliography</a></li>
+    </ol>
+  </nav>
+
+  {# ── Index of Terms ── #}
+  <div class="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Index of Terms</h2>
+
+    {% if alphaProperties | length %}
+    <div class="mb-4" id="index-properties-terms">
+      <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Properties in /terms/ namespace</h3>
+      <div class="flex flex-wrap gap-2">
+        {% for term in alphaProperties %}
+        <a href="#{{ term.localName }}" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20 hover:bg-blue-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if extraVocabs.elements and extraVocabs.elements.properties | length %}
+    <div class="mb-4" id="index-properties-elements">
+      <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Properties in /elements/1.1/ namespace</h3>
+      <div class="flex flex-wrap gap-2">
+        {% for term in extraVocabs.elements.properties %}
+        <a href="#elements-{{ term.localName }}" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-600/20 hover:bg-sky-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if alphaVes | length %}
+    <div class="mb-4" id="index-ves">
+      <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Vocabulary Encoding Schemes</h3>
+      <div class="flex flex-wrap gap-2">
+        {% for term in alphaVes %}
+        <a href="#{{ term.localName }}" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-orange-50 text-orange-700 ring-1 ring-inset ring-orange-600/20 hover:bg-orange-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if alphaDatatypes | length %}
+    <div class="mb-4" id="index-datatypes">
+      <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Syntax Encoding Schemes</h3>
+      <div class="flex flex-wrap gap-2">
+        {% for term in alphaDatatypes %}
+        <a href="#{{ term.localName }}" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-purple-50 text-purple-700 ring-1 ring-inset ring-purple-600/20 hover:bg-purple-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if alphaClasses | length %}
+    <div class="mb-4" id="index-classes">
+      <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Classes</h3>
+      <div class="flex flex-wrap gap-2">
+        {% for term in alphaClasses %}
+        <a href="#{{ term.localName }}" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20 hover:bg-green-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if extraVocabs.dcmitype and extraVocabs.dcmitype.classes | length %}
+    <div class="mb-4" id="index-dcmitype">
+      <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">DCMI Type Vocabulary</h3>
+      <div class="flex flex-wrap gap-2">
+        {% for term in extraVocabs.dcmitype.classes %}
+        <a href="#dcmitype-{{ term.localName }}" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-teal-50 text-teal-700 ring-1 ring-inset ring-teal-600/20 hover:bg-teal-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if extraVocabs.dcam %}
+    <div class="mb-4" id="index-dcam">
+      <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">DCAM Vocabulary Description Terms</h3>
+      <div class="flex flex-wrap gap-2">
+        {% for term in extraVocabs.dcam.properties %}
+        <a href="#dcam-{{ term.localName }}" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-600/20 hover:bg-rose-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+        {% for term in extraVocabs.dcam.classes %}
+        <a href="#dcam-{{ term.localName }}" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-600/20 hover:bg-rose-100 transition-colors">{{ term.localName }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+{# ════════════════════════════════════════════════════════════════
+   MACRO: Render a single term article card
+   ════════════════════════════════════════════════════════════════ #}
+{% macro termCard(term, badgeLabel, badgeColor, indexAnchor, idPrefix) %}
+<article id="{{ idPrefix }}{{ term.localName }}" class="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm scroll-mt-20">
+  <div class="flex flex-col gap-2 bg-gray-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+      <h3 class="text-base font-semibold text-gray-900">{{ term.localName }}</h3>
+      <a href="#{{ indexAnchor }}" class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset transition-colors {{ badgeColor }}">{{ badgeLabel }}</a>
+    </div>
+  </div>
+
+  <dl class="divide-y divide-gray-100">
+    {# URI #}
+    <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">URI</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-2">
+        <code class="font-mono text-xs break-all bg-gray-100 px-1.5 py-0.5 rounded">{{ term.uri }}</code>
+      </dd>
+    </div>
+
+    {# Label #}
+    <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Label</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.label }}</dd>
+    </div>
+
+    {# Definition #}
+    {% if term.comment %}
+    <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Definition</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.comment }}</dd>
+    </div>
+    {% endif %}
+
+    {# Comment / Description #}
+    {% if term.description %}
+    <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Comment</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.description }}</dd>
+    </div>
+    {% endif %}
+
+    {# Date Issued #}
+    {% if term.issued %}
+    <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Date Issued</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">{{ term.issued }}</dd>
+    </div>
+    {% endif %}
+
+    {# Domain (properties) #}
+    {% if term.domainFormatted | length %}
+    <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Has Domain</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        <ul class="list-none space-y-1">
+          {% for d in term.domainFormatted %}
+          <li>
+            {% if d.isLocal %}<a href="#{{ d.localName }}" class="text-indigo-600 hover:text-indigo-500 underline">{{ d.label }}</a>{% else %}<a href="{{ d.uri }}" class="text-indigo-600 hover:text-indigo-500 underline">{{ d.label }}</a>{% endif %}
+            <span class="text-gray-500 text-xs ml-1">({{ d.uri }})</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </dd>
+    </div>
+    {% endif %}
+
+    {# Range (properties) #}
+    {% if term.rangeFormatted | length %}
+    <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Has Range</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        <ul class="list-none space-y-1">
+          {% for r in term.rangeFormatted %}
+          <li>
+            {% if r.isLocal %}<a href="#{{ r.localName }}" class="text-indigo-600 hover:text-indigo-500 underline">{{ r.label }}</a>{% else %}<a href="{{ r.uri }}" class="text-indigo-600 hover:text-indigo-500 underline">{{ r.label }}</a>{% endif %}
+            <span class="text-gray-500 text-xs ml-1">({{ r.uri }})</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </dd>
+    </div>
+    {% endif %}
+
+    {# Domain Includes (dcam) #}
+    {% if term.domainIncludes | length %}
+    <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Domain Includes</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        <ul class="list-none space-y-1">
+          {% for d in term.domainIncludes %}
+          <li><a href="{{ d }}" class="text-indigo-600 hover:text-indigo-500 hover:underline break-all">{{ d }}</a></li>
+          {% endfor %}
+        </ul>
+      </dd>
+    </div>
+    {% endif %}
+
+    {# Range Includes (dcam) #}
+    {% if term.rangeIncludes | length %}
+    <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Range Includes</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        <ul class="list-none space-y-1">
+          {% for r in term.rangeIncludes %}
+          <li><a href="{{ r }}" class="text-indigo-600 hover:text-indigo-500 hover:underline break-all">{{ r }}</a></li>
+          {% endfor %}
+        </ul>
+      </dd>
+    </div>
+    {% endif %}
+
+    {# Subproperty Of #}
+    {% if term.subPropertyOf | length %}
+    <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Subproperty of</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        <ul class="list-none space-y-1">
+          {% for sp in term.subPropertyOf %}
+          <li>
+            <a href="{{ sp }}" class="text-indigo-600 hover:text-indigo-500 hover:underline break-all">{{ sp }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </dd>
+    </div>
+    {% endif %}
+
+    {# Subclass Of (classes) #}
+    {% if term.subClassOfFormatted | length %}
+    <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Subclass of</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        <ul class="list-none space-y-1">
+          {% for sc in term.subClassOfFormatted %}
+          <li>
+            {% if sc.isLocal %}<a href="#{{ sc.localName }}" class="text-indigo-600 hover:text-indigo-500 underline">{{ sc.label }}</a>{% else %}<a href="{{ sc.uri }}" class="text-indigo-600 hover:text-indigo-500 underline">{{ sc.label }}</a>{% endif %}
+            <span class="text-gray-500 text-xs ml-1">({{ sc.uri }})</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </dd>
+    </div>
+    {% endif %}
+
+    {# Has Subclass (classes) #}
+    {% if term.hasSubClass | length %}
+    <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Has Subclass</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        <ul class="list-none space-y-1">
+          {% for sc in term.hasSubClass %}
+          <li>
+            <a href="#{{ sc.localName }}" class="text-indigo-600 hover:text-indigo-500 underline">{{ sc.label }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </dd>
+    </div>
+    {% endif %}
+
+    {# Member Of (VES) #}
+    {% if term.memberOf %}
+    <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">Member Of</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        <a href="{{ term.memberOf }}" class="text-indigo-600 hover:text-indigo-500 hover:underline break-all">{{ term.memberOf }}</a>
+      </dd>
+    </div>
+    {% endif %}
+
+    {# See Also #}
+    {% if term.seeAlso | length %}
+    <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <dt class="text-sm font-medium text-gray-900">See</dt>
+      <dd class="mt-1 text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+        {% for sa in term.seeAlso %}
+        <a href="{{ sa }}" class="text-indigo-600 hover:text-indigo-500 hover:underline break-all">{{ sa }}</a>{% if not loop.last %}<br/>{% endif %}
+        {% endfor %}
+      </dd>
+    </div>
+    {% endif %}
+  </dl>
+</article>
+{% endmacro %}
+
+  {# ── Section 1: Introduction and Definitions ── #}
+  <section class="mt-12" aria-labelledby="section-1-heading">
+    <h2 id="section-1" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 1: Introduction and Definitions
+    </h2>
+    <div class="prose prose-indigo mt-6 max-w-none">
+      <p>This document is an up-to-date, authoritative specification of all metadata terms maintained by the Dublin Core&#8482; Metadata Initiative. Included are the fifteen terms of the Dublin Core&#8482; Metadata Element Set (also known as &quot;the Dublin Core&quot;) plus several dozen properties, classes, datatypes, and vocabulary encoding schemes. The &quot;Dublin Core&quot; plus these extension vocabularies are collectively referred to as &quot;DCMI metadata terms&quot; (&quot;Dublin Core terms&quot; for short). These terms are intended to be used in combination with metadata terms from other, compatible vocabularies in the context of application profiles.</p>
+      <p>DCMI metadata terms are expressed in RDF vocabularies for use in Linked Data. Creators of non-RDF metadata can use the terms in contexts such as XML, JSON, UML, or relational databases by disregarding both the global identifier and the formal implications of the RDF-specific aspects of term definitions. Such users can take domain, range, subproperty, and subclass relations as usage suggestions and focus on the natural-language text of definitions, usage notes, and examples.</p>
+      <p>Each term is identified with a Uniform Resource Identifier (URI), a global identifier usable in Linked Data. Term URIs resolve to the <a href="/specifications/dublin-core/dcmi-terms/">DCMI Metadata Terms</a> document when selected in a browser or, when referenced programmatically by RDF applications, to one of <a href="/schemas/rdfs/">four RDF schemas</a>. The scope of each RDF schema corresponds to a &quot;DCMI namespace&quot;, or set of DCMI metadata terms that are identified using a common base URI, as enumerated in the <a href="/specifications/dublin-core/dcmi-namespace/">DCMI Namespace Policy</a>. In Linked Data, the URIs for DCMI namespaces are often declared as prefixes in order to make data, queries, and schemas more concise and readable.</p>
+      <p>The four DCMI namespaces are:</p>
+      <ul>
+        <li><strong><code>http://purl.org/dc/elements/1.1/</code></strong> The <code>/elements/1.1/</code> namespace was created in 2000 for the RDF representation of the fifteen-element Dublin Core and has been widely used in data for more than twenty years. This namespace corresponds to the original scope of ISO 15836, which was published first in 2003 and last revised in 2017 as ISO 15836-1:2017 [<a href="https://www.iso.org/standard/71339.html">ISO 15836-1:2017</a>].</li>
+        <li><strong><code>http://purl.org/dc/terms/</code></strong> The <code>/terms/</code> namespace was originally created in 2001 for identifying new terms coined outside of the original fifteen-element Dublin Core. In 2008, in the context of defining formal semantic constraints for DCMI metadata terms in support of RDF applications, the original fifteen elements themselves were mirrored in the <code>/terms/</code> namespace. As a result, there exists both a <code>dc:date</code> (<code>http://purl.org/dc/elements/1.1/date</code>) with no formal range and a corresponding <code>dcterms:date</code> (<code>http://purl.org/dc/terms/date</code>) with a formal range of &quot;literal&quot;. While these distinctions are significant for creators of RDF applications, most users can safely treat the fifteen parallel properties as equivalent. The most useful properties and classes of DCMI Metadata Terms have now been published as ISO 15836-2:2019 [<a href="https://www.iso.org/standard/71341.html">ISO 15836-2:2019</a>]. While the <code>/elements/1.1/</code> namespace will be supported indefinitely, DCMI gently encourages use of the <code>/terms/</code> namespace.</li>
+        <li><strong><code>http://purl.org/dc/dcmitype/</code></strong> The <code>/dcmitype/</code> namespace was created in 2001 for the DCMI Type Vocabulary, which defines classes for basic types of thing that can be described using DCMI metadata terms.</li>
+        <li><strong><code>http://purl.org/dc/dcam/</code></strong> The <code>/dcam/</code> namespace was created in 2008 for terms used in the <em>description of</em> DCMI metadata terms.</li>
+      </ul>
+      <p>Each term is specified with the following minimal set of attributes:</p>
+
+      <div class="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="bg-gray-50 px-4 py-3 border-b border-gray-200">
+          <p class="text-sm font-semibold text-gray-900">Minimal Attributes</p>
+        </div>
+        <dl class="divide-y divide-gray-100">
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Name</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A token appended to the URI of a DCMI namespace to create the URI of the term.</dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Label</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">The human-readable label assigned to the term.</dd>
+          </div>
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">URI</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">The Uniform Resource Identifier used to uniquely identify a term.</dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Definition</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A statement that represents the concept and essential nature of the term.</dd>
+          </div>
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Type of Term</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">The type of term: property, class, datatype, or vocabulary encoding scheme.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <p>Where applicable, the following attributes provide additional information about a term:</p>
+
+      <div class="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="bg-gray-50 px-4 py-3 border-b border-gray-200">
+          <p class="text-sm font-semibold text-gray-900">Additional Attributes</p>
+        </div>
+        <dl class="divide-y divide-gray-100">
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Comment</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">Additional information about the term or its application.</dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">See</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">Authoritative documentation related to the term.</dd>
+          </div>
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Subproperty Of</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A property of which the described term is a sub-property.</dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Superclass Of</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A class of which the described term is a super-class.</dd>
+          </div>
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Subclass Of</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A class of which the described term is a sub-class.</dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Domain</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A class of which a resource described by the term is an instance.</dd>
+          </div>
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Domain Includes</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A suggested class for subjects of this property.</dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Range</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A class of which a value described by the term is an instance.</dd>
+          </div>
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Range Includes</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A suggested class for values of this property.</dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Member Of</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">An enumerated set of resources (Vocabulary Encoding Scheme) of which the term is a member.</dd>
+          </div>
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Instance Of</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A class of which the described term is an instance.</dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-900">Equivalent Property</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">A property to which the described term is equivalent.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <h4 id="references">References</h4>
+
+      <div class="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="bg-gray-50 px-4 py-3 border-b border-gray-200">
+          <p class="text-sm font-semibold text-gray-900">References</p>
+        </div>
+        <dl class="divide-y divide-gray-100">
+          <div id="ISO158361" class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6 scroll-mt-20">
+            <dt class="text-sm font-medium text-gray-900">[ISO 15836-1:2017]</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">
+              <a href="https://www.iso.org/standard/71339.html" class="text-indigo-600 hover:text-indigo-500 hover:underline break-all">https://www.iso.org/standard/71339.html</a>
+            </dd>
+          </div>
+          <div id="ISO158362" class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6 scroll-mt-20">
+            <dt class="text-sm font-medium text-gray-900">[ISO 15836-2:2019]</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">
+              <a href="https://www.iso.org/standard/71341.html" class="text-indigo-600 hover:text-indigo-500 hover:underline break-all">https://www.iso.org/standard/71341.html</a>
+            </dd>
+          </div>
+          <div id="NAMESPACE" class="bg-white px-4 py-3 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6 scroll-mt-20">
+            <dt class="text-sm font-medium text-gray-900">[NAMESPACE]</dt>
+            <dd class="mt-1 text-sm text-gray-700 sm:col-span-3 sm:mt-0">
+              <a href="https://dublincore.org/specifications/dublin-core/dcmi-namespace/" class="text-indigo-600 hover:text-indigo-500 hover:underline break-all">https://dublincore.org/specifications/dublin-core/dcmi-namespace/</a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  {# ── Section 2: Properties in /terms/ namespace ── #}
+  <section class="mt-12">
+    <h2 id="section-2" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 2: Properties in the <code class="bg-gray-100 px-2 py-1 rounded text-lg">/terms/</code> namespace
+    </h2>
+    <div class="mt-4">
+      {% for term in properties %}
+      {{ termCard(term, "Property", "bg-blue-50 text-blue-700 ring-blue-600/20 hover:bg-blue-100", "index-properties-terms", "") }}
+      {% endfor %}
+    </div>
+  </section>
+
+  {# ── Section 3: Properties in /elements/1.1/ namespace ── #}
+  {% if extraVocabs.elements %}
+  <section class="mt-12">
+    <h2 id="section-3" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 3: Properties in the <code class="bg-gray-100 px-2 py-1 rounded text-lg">/elements/1.1/</code> namespace
+    </h2>
+    <div class="mt-4">
+      {% for term in extraVocabs.elements.properties %}
+      {{ termCard(term, "Property", "bg-sky-50 text-sky-700 ring-sky-600/20 hover:bg-sky-100", "index-properties-elements", "elements-") }}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ── Section 4: Vocabulary Encoding Schemes ── #}
+  {% if vocabularyEncodingSchemes | length %}
+  <section class="mt-12">
+    <h2 id="section-4" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 4: Vocabulary Encoding Schemes
+    </h2>
+    <div class="mt-4">
+      {% for term in vocabularyEncodingSchemes %}
+      {{ termCard(term, "Vocabulary Encoding Scheme", "bg-orange-50 text-orange-700 ring-orange-600/20 hover:bg-orange-100", "index-ves", "") }}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ── Section 5: Syntax Encoding Schemes / Datatypes ── #}
+  {% if datatypes | length %}
+  <section class="mt-12">
+    <h2 id="section-5" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 5: Syntax Encoding Schemes
+    </h2>
+    <div class="mt-4">
+      {% for term in datatypes %}
+      {{ termCard(term, "Datatype", "bg-purple-50 text-purple-700 ring-purple-600/20 hover:bg-purple-100", "index-datatypes", "") }}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ── Section 6: Classes ── #}
+  <section class="mt-12">
+    <h2 id="section-6" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 6: Classes
+    </h2>
+    <div class="mt-4">
+      {% for term in classes %}
+      {{ termCard(term, "Class", "bg-green-50 text-green-700 ring-green-600/20 hover:bg-green-100", "index-classes", "") }}
+      {% endfor %}
+    </div>
+  </section>
+
+  {# ── Section 7: DCMI Type Vocabulary ── #}
+  {% if extraVocabs.dcmitype %}
+  <section class="mt-12">
+    <h2 id="section-7" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 7: DCMI Type Vocabulary
+    </h2>
+    <div class="mt-4">
+      {% for term in extraVocabs.dcmitype.classes %}
+      {{ termCard(term, "Class", "bg-teal-50 text-teal-700 ring-teal-600/20 hover:bg-teal-100", "index-dcmitype", "dcmitype-") }}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ── Section 8: Terms for vocabulary description (DCAM) ── #}
+  {% if extraVocabs.dcam %}
+  <section class="mt-12">
+    <h2 id="section-8" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 8: Terms for vocabulary description
+    </h2>
+    <div class="mt-4">
+      {% for term in extraVocabs.dcam.properties %}
+      {{ termCard(term, "Property", "bg-rose-50 text-rose-700 ring-rose-600/20 hover:bg-rose-100", "index-dcam", "dcam-") }}
+      {% endfor %}
+      {% for term in extraVocabs.dcam.classes %}
+      {{ termCard(term, "Class", "bg-rose-50 text-rose-700 ring-rose-600/20 hover:bg-rose-100", "index-dcam", "dcam-") }}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ── Section 9: Bibliography ── #}
+  <section class="mt-12" aria-labelledby="section-9-heading">
+    <h2 id="section-9" class="text-2xl font-bold tracking-tight text-gray-900 scroll-mt-20">
+      Section 9: Bibliography
+    </h2>
+    <div class="prose prose-indigo mt-6 max-w-none">
+      <dl>
+        <dd><b>[DCMI-ACCRUALMETHOD]</b> Collection Description Accrual Method Vocabulary. URL: <a href="https://dublincore.org/groups/collections/accrual-method/">https://dublincore.org/groups/collections/accrual-method/</a></dd>
+        <dd><b>[DCMI-ACCRUALPOLICY]</b> Collection Description Accrual Policy Vocabulary. URL: <a href="https://dublincore.org/groups/collections/accrual-policy/">https://dublincore.org/groups/collections/accrual-policy/</a></dd>
+        <dd><b>[DCMI-COLLFREQ]</b> Collection Description Frequency Vocabulary. URL: <a href="https://dublincore.org/groups/collections/frequency/">https://dublincore.org/groups/collections/frequency/</a></dd>
+        <dd><b>[DCMI-TYPE]</b> DCMI Type Vocabulary. URL: <a href="https://dublincore.org/documents/dcmi-type-vocabulary/">https://dublincore.org/documents/dcmi-type-vocabulary/</a></dd>
+        <dd><b>[EDTF]</b> Extended Date/Time Format Specification. URL: <a href="http://www.loc.gov/standards/datetime/">http://www.loc.gov/standards/datetime/</a></dd>
+        <dd><b>[IETF-BCP47]</b> Best Current Practice 47: Tags for Identifying Languages. URL: <a href="https://tools.ietf.org/html/bcp47">https://tools.ietf.org/html/bcp47</a></dd>
+        <dd><b>[ISO8601-1]</b> ISO 8601-1, Date and time &#8212; Representations for information interchange &#8212; Part 1: Basic rules. URL: <a href="https://www.iso.org/iso-8601-date-and-time-format.html">https://www.iso.org/iso-8601-date-and-time-format.html</a></dd>
+        <dd><b>[MIME]</b> Internet Media Types. URL: <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">https://www.iana.org/assignments/media-types/media-types.xhtml</a></dd>
+        <dd><b>[TGN]</b> Getty Thesaurus of Geographic Names. URL: <a href="https://www.getty.edu/research/tools/vocabulary/tgn/index.html">https://www.getty.edu/research/tools/vocabulary/tgn/index.html</a></dd>
+        <dd><b>[W3CDTF]</b> W3C Note on Date and Time Formats. URL: <a href="https://www.w3.org/TR/NOTE-datetime">https://www.w3.org/TR/NOTE-datetime</a></dd>
+      </dl>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

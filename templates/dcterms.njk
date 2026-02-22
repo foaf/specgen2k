@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DCMI Metadata Terms</title>
+</head>
+<body>
+
+<h1>DCMI Metadata Terms</h1>
+
+<p>This document is an up-to-date specification of all metadata terms maintained by the
+Dublin Core Metadata Initiative, including properties, vocabulary encoding schemes,
+syntax encoding schemes, and classes.</p>
+
+{# ── Table of Contents ── #}
+<nav>
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#section-properties">Properties</a></li>
+    <li><a href="#section-classes">Classes</a></li>
+  </ol>
+</nav>
+
+{# ── Index of Terms ── #}
+<div>
+  <h2>Index of Terms</h2>
+
+  <div id="index-properties">
+    <h3>Properties</h3>
+    <ul>
+      {% for term in alphaProperties %}
+      <li><a href="#{{ term.localName }}">{{ term.localName }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div id="index-classes">
+    <h3>Classes</h3>
+    <ul>
+      {% for term in alphaClasses %}
+      <li><a href="#{{ term.localName }}">{{ term.localName }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{# ── Section: Properties ── #}
+<section>
+  <h2 id="section-properties">Properties</h2>
+
+  {% for term in properties %}
+  <article id="{{ term.localName }}">
+    <div>
+      <h3>{{ term.localName }}</h3>
+      <span>Property</span>
+    </div>
+
+    <dl>
+      <div>
+        <dt>URI</dt>
+        <dd><code>{{ term.uri }}</code></dd>
+      </div>
+
+      <div>
+        <dt>Label</dt>
+        <dd>{{ term.label }}</dd>
+      </div>
+
+      <div>
+        <dt>Definition</dt>
+        <dd>{{ term.comment }}</dd>
+      </div>
+
+      {% if term.description %}
+      <div>
+        <dt>Comment</dt>
+        <dd>{{ term.description }}</dd>
+      </div>
+      {% endif %}
+
+      {% if term.issued %}
+      <div>
+        <dt>Date Issued</dt>
+        <dd>{{ term.issued }}</dd>
+      </div>
+      {% endif %}
+
+      {% if term.status %}
+      <div>
+        <dt>Status</dt>
+        <dd>{{ term.status }}</dd>
+      </div>
+      {% endif %}
+
+      {% if term.subPropertyOf | length %}
+      <div>
+        <dt>Subproperty of</dt>
+        <dd>
+          <ul>
+            {% for sp in term.subPropertyOf %}
+            <li><a href="#{{ sp }}">{{ sp }}</a></li>
+            {% endfor %}
+          </ul>
+        </dd>
+      </div>
+      {% endif %}
+
+      {% if term.rangeIncludes | length %}
+      <div>
+        <dt>Range Includes</dt>
+        <dd>
+          <ul>
+            {% for r in term.rangeIncludes %}
+            <li>{{ r }}</li>
+            {% endfor %}
+          </ul>
+        </dd>
+      </div>
+      {% endif %}
+
+      {% if term.domainIncludes | length %}
+      <div>
+        <dt>Domain Includes</dt>
+        <dd>
+          <ul>
+            {% for d in term.domainIncludes %}
+            <li>{{ d }}</li>
+            {% endfor %}
+          </ul>
+        </dd>
+      </div>
+      {% endif %}
+    </dl>
+  </article>
+  {% endfor %}
+</section>
+
+{# ── Section: Classes ── #}
+<section>
+  <h2 id="section-classes">Classes</h2>
+
+  {% for term in classes %}
+  <article id="{{ term.localName }}">
+    <div>
+      <h3>{{ term.localName }}</h3>
+      <span>Class</span>
+    </div>
+
+    <dl>
+      <div>
+        <dt>URI</dt>
+        <dd><code>{{ term.uri }}</code></dd>
+      </div>
+
+      <div>
+        <dt>Label</dt>
+        <dd>{{ term.label }}</dd>
+      </div>
+
+      <div>
+        <dt>Definition</dt>
+        <dd>{{ term.comment }}</dd>
+      </div>
+
+      {% if term.description %}
+      <div>
+        <dt>Comment</dt>
+        <dd>{{ term.description }}</dd>
+      </div>
+      {% endif %}
+
+      {% if term.issued %}
+      <div>
+        <dt>Date Issued</dt>
+        <dd>{{ term.issued }}</dd>
+      </div>
+      {% endif %}
+
+      {% if term.status %}
+      <div>
+        <dt>Status</dt>
+        <dd>{{ term.status }}</dd>
+      </div>
+      {% endif %}
+
+      {% if term.subClassOf | length %}
+      <div>
+        <dt>Subclass of</dt>
+        <dd>
+          <ul>
+            {% for sc in term.subClassOf %}
+            <li><a href="#{{ sc }}">{{ sc }}</a></li>
+            {% endfor %}
+          </ul>
+        </dd>
+      </div>
+      {% endif %}
+    </dl>
+  </article>
+  {% endfor %}
+</section>
+
+</body>
+</html>
